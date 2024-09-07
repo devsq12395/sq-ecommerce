@@ -5,6 +5,8 @@ import App from './App.tsx'
 import './index.css'
 import MyProvider from './MyProvider.tsx'
 
+import MyProvider from './MyProvider.tsx'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <MyProvider>

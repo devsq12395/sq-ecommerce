@@ -1,18 +1,12 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
 
-// Define the type for the context value
+import { createContext } from "react";
+
+// Define the type of context
 interface MyContextType {
-  isLoggedIn: boolean;
-  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
-  selTab: number;
-  setSelTab: Dispatch<SetStateAction<number>>;
-  animate: number;
-  setAnimate: Dispatch<SetStateAction<number>>;
-  isMovTween: number;
-  setIsMovTween: Dispatch<SetStateAction<number>>;
+    
 }
 
-// Initialize the context with an empty object or a default value
+// Initialize context with undefined, to be provided by the provider
 const MyContext = createContext<MyContextType | undefined>(undefined);
 
 export default MyContext;
