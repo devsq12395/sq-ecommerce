@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
+import Profile from "../components/Profile";
+
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
 
   return <>
+    <Profile />
     <motion.div
       className="relative h-full w-full py-10 grid gap-4 md:grid-cols-2"
       initial="hidden"
