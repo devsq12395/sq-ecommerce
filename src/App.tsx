@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom"
 import { Helmet } from "react-helmet"
 
 import MainPage from "./pages/MainPage"
+import Header from "./components/Header"
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const App: React.FC = () => {
       <Helmet>
         <title>IdeaHub Project</title>
       </Helmet>
+
+      {/* <Header /> */}
 
       <Routes>
         <Route path="/" element={<MainPage />} />

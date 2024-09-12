@@ -5,15 +5,22 @@ import { signUpWithEmail } from '../../helpers/auth';
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUserName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSignUp = async (e: React.FormEvent) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     e.preventDefault();
     try {
-      await signUpWithEmail(email, password);
+      await signUpWithEmail(email, password, username);
       alert('Check your email for the confirmation link!');
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -30,6 +37,12 @@ const SignUp: React.FC = () => {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUserName(e.target.value)}
       />
       <button type="submit">Sign Up</button>
       {error && <p>{error}</p>}
