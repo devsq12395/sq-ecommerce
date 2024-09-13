@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import Profile from "../components/Profile";
@@ -8,7 +7,6 @@ import Login from "../components/login/Login";
 import SignUp from "../components/login/Signup";
 
 const MainPage: React.FC = () => {
-  const navigate = useNavigate();
 
   return <>
     <Login />

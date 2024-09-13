@@ -1,26 +1,47 @@
 import { supabase } from '../supabaseClient';
 
-// Sign up with email and password
-export const signUpWithEmail = async (email: string, password: string, username: string) => {
-  // Sign up the user
-  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-  
-  if (signUpError) {
-    console.error('Sign up error:', signUpError.message);
-    throw signUpError;
+export const signUpWithEmail = async (email: string, password: string) => {
+  try {
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    
+    if (signUpError) {
+      console.error('Sign up error:', signUpError.message);
+      throw signUpError;
+    }
+
+    return signUpData?.user;
+  } catch (error: any) {
+    console.error('Error fetching username:', error.message);
+    return null;
   }
+};
 
-  const user = signUpData?.user;
+export const createProfile = async (username: string) => {
+  try {
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
 
-  // If user is created, insert a new profile into the 'profiles' table
-  if (user) {
+    if (sessionError) {
+      console.error('Error fetching session:', sessionError.message);
+      throw sessionError;
+    }
+
+    const user = session?.user;
+
+    if (!user) {
+      console.error('No authenticated user found.');
+      return null;
+    }
+
     const { data: profileData, error: profileError } = await supabase
       .from('profiles')
       .insert([
-        { username, user_id: user.id } // Insert username and user_id (from Supabase user)
+        { username, user_id: user.id } 
       ]);
 
     if (profileError) {
@@ -29,10 +50,11 @@ export const signUpWithEmail = async (email: string, password: string, username:
     }
 
     return { user, profile: profileData };
+  } catch (error: any) {
+    console.error('Error fetching username:', error.message);
+    return null;
   }
-  
-  return null;
-};
+}
 
 // Sign in with email and password
 export const signInWithEmail = async (email: string, password: string) => {

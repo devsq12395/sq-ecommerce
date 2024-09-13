@@ -1,4 +1,3 @@
-// src/components/Logout.tsx
 import React from 'react';
 import { signOut } from '../../helpers/auth';
 
