@@ -28,8 +28,8 @@ const Profile: React.FC = () => {
     fetchUsername();
   }, [user, navigate, hasNavigated]);
 
-  if (loading || usernameLoading) return <p>Loading...</p>;
   if (!user) return <></>;
+  if (loading || usernameLoading) return <p>Loading...</p>;
 
   return (
     <div>

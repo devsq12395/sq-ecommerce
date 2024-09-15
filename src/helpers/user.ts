@@ -1,9 +1,7 @@
 import { supabase } from '../supabaseClient';
 
-// Function to get the current user's username from the 'profiles' table
-export const getUsernameFromCurrentUser = async (): Promise<string | null> => {
+const getCurrentUserId = async (): Promise<string | null> => {
   try {
-    // Get the current session (user)
     const {
       data: { session },
       error: sessionError,
@@ -21,7 +19,19 @@ export const getUsernameFromCurrentUser = async (): Promise<string | null> => {
       return null;
     }
 
-    // Fetch the user's profile from the 'profiles' table using the user_id
+    return userId;
+  } catch (error: any) {
+    console.error('Error fetching user:', error.message);
+    return null;
+  }
+};
+
+export const getUsernameFromCurrentUser = async (): Promise<string | null> => {
+  try {
+    const userId = await getCurrentUserId();
+
+    if (!userId) return null;
+
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('username')
@@ -33,10 +43,33 @@ export const getUsernameFromCurrentUser = async (): Promise<string | null> => {
       throw profileError;
     }
 
-    // Return the username if found
     return profile?.username || null;
   } catch (error: any) {
     console.error('Error fetching username:', error.message);
+    return null;
+  }
+};
+
+export const getAvatarFromCurrentUser = async (): Promise<string | null> => {
+  try {
+    const userId = await getCurrentUserId();
+
+    if (!userId) return null;
+
+    const { data: avatar, error: avatarError } = await supabase
+      .from('avatars')
+      .select('avatar_url')
+      .eq('user_id', userId)
+      .single();
+
+    if (avatarError) {
+      console.error('Error fetching avatar:', avatarError.message);
+      throw avatarError;
+    }
+
+    return avatar?.avatar_url || null;
+  } catch (error: any) {
+    console.error('Error fetching avatar URL:', error.message);
     return null;
   }
 };

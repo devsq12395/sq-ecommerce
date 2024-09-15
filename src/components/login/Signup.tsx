@@ -23,22 +23,28 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSignUp}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Sign Up</button>
-      {error && <p>{error}</p>}
-    </form>
+    <div className="w-full h-[5vh] bg-blue-500 flex justify-end">
+      <form onSubmit={handleSignUp} className="flex items-center w-1/2 justify-end px-4">
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="p-2 border border-gray-300 rounded-md"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="p-2 border border-gray-300 rounded-md ml-2"
+        />
+        <button type="submit" className="bg-green-600 text-white p-2 rounded-md ml-2">
+          Sign Up
+        </button>
+        {error && <p className="text-red-500 ml-4">{error}</p>}
+      </form>
+    </div>
   );
 };
 

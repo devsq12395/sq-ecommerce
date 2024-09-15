@@ -1,17 +1,8 @@
 import React, { useContext } from 'react';
-import MyContext from '../MyContext';
-
-// Define the types for user object
-interface User {
-    avatar: {
-        url: string;
-    };
-    username: string;
-    reputation: number;
-}
+import { useAuth } from '../context/AuthProvider';
 
 const Header: React.FC = () => {
-    const { user } = useContext(MyContext) as { user: User };
+    const { user, loading } = useAuth();
 
     return (
         <header className="bg-gray-800 text-white fixed top-0 w-full m-0 p-0 shadow-md z-10">

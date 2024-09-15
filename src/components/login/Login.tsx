@@ -17,22 +17,28 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-      {error && <p>{error}</p>}
-    </form>
+    <div className="w-full h-[5vh] bg-blue-500 flex justify-end">
+      <form onSubmit={handleLogin} className="flex items-center w-1/2 justify-end px-4">
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="p-2 border border-gray-300 rounded-md"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="p-2 border border-gray-300 rounded-md ml-2"
+        />
+        <button type="submit" className="bg-blue-700 text-white p-2 rounded-md ml-2">
+          Login
+        </button>
+        {error && <p className="text-red-500 ml-4">{error}</p>}
+      </form>
+    </div>
   );
 };
 
