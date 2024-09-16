@@ -5,6 +5,8 @@ import Profile from "../components/Profile";
 
 import Login from "../components/login/Login";
 import SignUp from "../components/login/Signup";
+import Items from "../components/catalog/Items";
+import Cart from "../components/cart/Cart";
 
 const MainPage: React.FC = () => {
 
@@ -18,8 +20,10 @@ const MainPage: React.FC = () => {
       initial="hidden"
       animate="visible"
     >
-      <h1>Test</h1>
+      <Items />
+      <Cart />
     </motion.div>
+    
   </>;
 }
 
