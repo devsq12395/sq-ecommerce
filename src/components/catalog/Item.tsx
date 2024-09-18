@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { addProductToCart } from '../../helpers/products';
-import { useAuth } from '../../context/AuthProvider';
-
 import MyContext from '../../MyContext';
 
 interface ItemProps {
@@ -15,8 +13,13 @@ interface ItemProps {
 }
 
 const Item: React.FC<ItemProps> = ({ product }) => {
-  const { user } = useAuth();
-  
+  const context = useContext(MyContext);
+
+  if (!context) {
+    return null; // Handles case where context might be undefined
+  }
+
+  const { user, cart, setCart } = context;
 
   const handleAddToCart = async () => {
     if (!user) {
@@ -24,7 +27,8 @@ const Item: React.FC<ItemProps> = ({ product }) => {
       return;
     }
 
-    await addProductToCart(user.id, product.id, 1);
+    const updatedCartItem = await addProductToCart(user.id, product.id, 1);
+    setCart([...cart, updatedCartItem]); // Update cart in the context
     alert(`${product.name} has been added to your cart!`);
   };
 

@@ -1,34 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { getCartItems } from '../../helpers/products';
-import { useAuth } from '../../context/AuthProvider';
+import MyContext from '../../MyContext';
 
 const Cart: React.FC = () => {
-  const { user } = useAuth();
-  const [cartItems, setCartItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const context = useContext(MyContext);
+
+  if (!context) {
+    return null; // Handles case where context might be undefined
+  }
+
+  const { user, cart, setCart } = context; // Destructure setCart from context
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     const fetchCartItems = async () => {
       if (user) {
         const data = await getCartItems(user.id);
-        setCartItems(data || []);
+        console.log (cart);
+        console.log (setCart);
+        setCart(data || []); // Ensure cart is always set as an array
       }
       setLoading(false);
     };
 
     fetchCartItems();
-  }, [user]);
+  }, [user, setCart]); // Make sure setCart is in the dependency array
 
   if (loading) {
     return <p>Loading cart...</p>;
   }
 
-  if (!cartItems.length) {
+  if (!Array.isArray(cart) || cart.length === 0) {
     return <p>Your cart is empty.</p>;
   }
 
   const getTotalPrice = () => {
-    return cartItems.reduce(
+    return cart.reduce(
       (total, item) => total + item.product.price * item.quantity,
       0
     );
@@ -38,7 +45,7 @@ const Cart: React.FC = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Your Cart</h2>
       <ul className="space-y-4">
-        {cartItems.map((item) => (
+        {cart.map((item) => (
           <li key={item.cart_item_id} className="border-b pb-4">
             <p className="font-semibold">{item.product.name}</p>
             <p>Quantity: {item.quantity}</p>
