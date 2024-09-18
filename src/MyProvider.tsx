@@ -5,21 +5,15 @@ interface MyProviderProps {
   children: React.ReactNode;
 }
 
-const MyProvider: React.FC<MyProviderProps> = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [selTab, setSelTab] = useState<number>(0);
-  const [animate, setAnimate] = useState<number>(0);
-  const [isMovTween, setIsMovTween] = useState<number>(0);
-
-  const state = {
-    isLoggedIn, setIsLoggedIn,
-    selTab, setSelTab,
-    animate, setAnimate,
-    isMovTween, setIsMovTween
-  };
+const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [cart, setCart] = useState<any[]>([]);
 
   return (
-    <MyContext.Provider value={state}>{props.children}</MyContext.Provider>
+    <MyContext.Provider value={{ user, loading, cart, setCart }}>
+      {children}
+    </MyContext.Provider>
   );
 };
 

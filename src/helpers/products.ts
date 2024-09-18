@@ -109,23 +109,25 @@ export const addProductToCart = async (
           product_id: productId,
           quantity,
         },
-      ]);
+      ])
+      .select();
 
     if (error) {
       throw error;
     }
 
     console.log('Product added to cart:', data);
-  } catch (error:any) {
+  } catch (error: any) {
     console.error('Error adding product to cart:', error.message);
   }
 };
+
 
 export const getCartItems = async (userId: string) => {
   try {
     const { data, error } = await supabase
       .from('cart_item')
-      .select('cart_item_id, quantity, product:products(name, price)')
+      .select('cart_id, quantity, product:products(name, price)')
       .eq('cart_id', (await getUserCartId(userId))?.cart_id);
 
     if (error) {

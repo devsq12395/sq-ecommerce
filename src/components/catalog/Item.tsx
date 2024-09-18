@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { addProductToCart } from '../../helpers/products';
 import { useAuth } from '../../context/AuthProvider';
 
+import MyContext from '../../MyContext';
+
 interface ItemProps {
   product: {
     id: string;
@@ -14,6 +16,7 @@ interface ItemProps {
 
 const Item: React.FC<ItemProps> = ({ product }) => {
   const { user } = useAuth();
+  
 
   const handleAddToCart = async () => {
     if (!user) {
