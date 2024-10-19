@@ -12,10 +12,7 @@ import Cart from "../components/cart/Cart";
 const MainPage: React.FC = () => {
 
   return <>
-    {/* <Header /> */}
-    <Login />
-    <Profile />
-    <SignUp />
+    <Header />
     
     <motion.div
       className="relative h-full w-full py-10 grid gap-4 md:grid-cols-2"

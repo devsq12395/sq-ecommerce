@@ -1,34 +1,54 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthProvider';
-import MyContext from '../MyContext';
+import { useNavigate } from 'react-router-dom';
+import MyContext from '../MyContext'; // Import MyContext
+import { getUsernameFromCurrentUser } from '../helpers/user';
+
+import SignUp from './login/Signup';
 
 const Header: React.FC = () => {
-    const context = useContext(MyContext);
+    const { user, loading: authLoading } = useAuth(); // useAuth for user authentication state
+    const context = useContext(MyContext); // Access MyContext safely
+    const [usernameLoading, setUsernameLoading] = useState(true);
+    const [hasNavigated, setHasNavigated] = useState(false);
+    const navigate = useNavigate();
 
+    // Ensure the context is defined
     if (!context) {
-        return null;
+        throw new Error('MyContext must be used within a MyProvider');
     }
 
-    const { user } = context;
+    const { user: contextUser, loading: contextLoading, setUser } = context; // Destructure after the context check
+
+    useEffect(() => {
+        const fetchUsername = async () => {
+            if (user) {
+                const fetchedUsername = await getUsernameFromCurrentUser();
+                setUser(fetchedUsername); // Set the username in the context
+                setUsernameLoading(false);
+
+                if (!fetchedUsername && !hasNavigated) {
+                    setHasNavigated(true);
+                    navigate('/create-profile');
+                }
+            }
+        };
+
+        fetchUsername();
+    }, [user, navigate, hasNavigated, setUser]);
 
     return (
-        <header className="bg-gray-800 text-white fixed top-0 w-full m-0 p-0 shadow-md z-10">
-            {/* <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                    <div>
-                        <p className="text-sm font-semibold">{user.username}</p>
-                    </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                    <button className="focus:outline-none">
-                        <img src="/icons/notification.png" alt="Notifications" className="w-6 h-6" />
-                    </button>
-                    <button className="focus:outline-none">
-                        <img src="/icons/nav.png" alt="Navigation" className="w-6 h-6" />
-                    </button>
-                </div>
-            </div> */}
-        </header>
+        <>
+            <header className="w-full h-[10vh] bg-blue-500 flex-col justify-end">
+                {
+                    (authLoading || contextLoading || usernameLoading || !user) ? 
+                    <SignUp /> : <></>
+                }
+
+                <SignUp />
+            </header>
+            
+        </>
     );
 };
 
