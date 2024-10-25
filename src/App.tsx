@@ -4,8 +4,7 @@ import { Helmet } from "react-helmet"
 
 import MainPage from "./pages/MainPage"
 import CreateProfile from "./pages/CreateProfile"
-
-import Header from "./components/Header"
+import CartPage from "./pages/CartPage"
 
 import MyContext from "./MyContext"
 
@@ -13,15 +12,13 @@ const App: React.FC = () => {
   const navigate = useNavigate();
 
   const context = useContext(MyContext);
-  console.log (context);
-  const { user, cart, setCart } = context;
-  console.log("User in App:", user);
-  console.log("Cart in App:", cart);
-  console.log("SetCart in App:", setCart);
+  const { user } = context;
   
   useEffect(() => {
-    navigate("/");
-  }, [navigate]);
+    if (!user){
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <>
@@ -33,6 +30,7 @@ const App: React.FC = () => {
 
       <Routes>
         <Route path="/" element={<MainPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/create-profile" element={<CreateProfile />} />
       </Routes>
     </>

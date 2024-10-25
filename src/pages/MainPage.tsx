@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { motion } from 'framer-motion';
 
 import Header from "../components/Header";
-import Profile from "../components/Profile";
-
-import Login from "../components/login/Login";
-import SignUp from "../components/login/Signup";
 import Items from "../components/catalog/Items";
-import Cart from "../components/cart/Cart";
+
+import MyContext from '../MyContext';
 
 const MainPage: React.FC = () => {
-
+  const context = useContext(MyContext);
+  const { user, userId } = context;
+  
   return <>
     <Header />
     
@@ -20,7 +19,6 @@ const MainPage: React.FC = () => {
       animate="visible"
     >
       <Items />
-      <Cart />
     </motion.div>
     
   </>;

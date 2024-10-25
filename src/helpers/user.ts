@@ -1,6 +1,6 @@
 import { supabase } from '../supabaseClient';
 
-const getCurrentUserId = async (): Promise<string | null> => {
+export const getCurrentUserId = async (): Promise<string | null> => {
   try {
     const {
       data: { session },

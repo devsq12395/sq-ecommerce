@@ -5,17 +5,14 @@ import MyContext from '../../MyContext';
 const Cart: React.FC = () => {
   const context = useContext(MyContext);
 
-  if (!context) {
-    return null; // Handles case where context might be undefined
-  }
-
-  const { user, cart, setCart } = context; // Destructure setCart from context
+  const { user, userId, cart, setCart } = context;
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     const fetchCartItems = async () => {
       if (user) {
-        const data = await getCartItems(user.id);
+        console.log (user);
+        const data = await getCartItems(userId);
         console.log (cart);
         console.log (setCart);
         setCart(data || []); // Ensure cart is always set as an array
