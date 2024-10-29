@@ -16,10 +16,10 @@ const Item: React.FC<ItemProps> = ({ product }) => {
   const context = useContext(MyContext);
 
   if (!context) {
-    return null; // Handles case where context might be undefined
+    return null;
   }
 
-  const { user, cart, setCart } = context;
+  const { user, userId, cart, setCart } = context;
 
   const handleAddToCart = async () => {
     if (!user) {
@@ -27,8 +27,8 @@ const Item: React.FC<ItemProps> = ({ product }) => {
       return;
     }
 
-    const updatedCartItem = await addProductToCart(user.id, product.id, 1);
-    setCart([...cart, updatedCartItem]); // Update cart in the context
+    const updatedCartItem = await addProductToCart(userId, product.id, 1);
+    setCart([...cart, updatedCartItem]);
     alert(`${product.name} has been added to your cart!`);
   };
 
@@ -38,6 +38,7 @@ const Item: React.FC<ItemProps> = ({ product }) => {
       <h2 className="text-lg font-semibold">{product.name}</h2>
       <p className="text-gray-700">{product.description}</p>
       <p className="text-blue-600 font-bold">${product.price}</p>
+      
       <button
         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         onClick={handleAddToCart}
